@@ -27,7 +27,7 @@ php bin/console doctrine:migrations:migrate
 Start the Symfony server:
 
 ```bash
-symfony server -d
+symfony serve -d
 ```
 
 ### Documentation
