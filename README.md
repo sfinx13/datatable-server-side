@@ -7,6 +7,8 @@ Simple implementation of datatable service-side processing with symfony
 This project provides a straightforward example of how to implement DataTables with server-side processing in a Symfony application. 
 It demonstrates how to set up a DataTable that retrieves and processes data efficiently on the server
 
+![img.png](assets/images/img.png)
+
 ## Prerequisites
 
 - [Symfony](https://symfony.com/download)
