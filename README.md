@@ -29,6 +29,6 @@ symfony server -d
 ```
 
 ### Documentation
-[Server-side processing
 https://datatables.net/manual/server-side
+
 https://datatables.net/examples/server_side/
