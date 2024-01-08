@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DatatableController!{% endblock %}
+{% block stylesheets %}
+<style>
+    #datatable-employee_filter {
+        display: none;
+    }
+</style>
+
+{% endblock %}
+{% block body %}
+    <h1>Datatable Server-side processing</h1>
+    <ul>
+        <li><a href="{{ path('app_datatable_views', {'ressource': 'employee'}) }}">Datable employee</a></li>
+        <li><a href="{{ path('app_datatable_views', {'ressource': 'product'}) }}">Datable product</a></li>
+    </ul>
+{% endblock %}

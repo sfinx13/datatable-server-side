@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DatatableController!{% endblock %}
+{% block stylesheets %}
+    <style>
+        #datatable-employee_filter {
+            display: none;
+        }
+    </style>
+
+{% endblock %}
+{% block body %}
+    <h1>Datatable Server-side processing</h1>
+    <a href="{{ path('app_datatable_views', {'ressource' : 'product'}) }}">Liste des produits</a>
+    <div id="datatable-filters" class="grid">
+        <div class="filter-group">
+            <label for="filter-name">Name</label>
+            <input type="text" id="filter-name" name="filter-name" data-column-index="0">
+        </div>
+        <div class="filter-group">
+            <label for="filter-position">Position</label>
+            <input type="text" id="filter-position" name="filter-position" data-column-index="1">
+        </div>
+        <div class="filter-group">
+            <label for="filter-office">Office</label>
+            <input type="text" id="filter-office" data-column="office" data-column-index="2">
+        </div>
+        <div class="filter-group">
+            <label for="filter-age">Age</label>
+            <input type="text" id="filter-age" data-column="age" data-column-index="3">
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-salary">Salary</label>
+            <input type="text" id="filter-salary" data-column="salary" data-column-index="4">
+        </div>
+    </div>
+    <table id="datatable-employee" data-ajax-url="{{ path('app_datatable_ressource', {'ressource' : 'employee'}) }}">
+        <caption align="top">Employee</caption>
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Office</th>
+            <th scope="col">Age</th>
+            <th scope="col">Salary</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Office</th>
+            <th scope="col">Age</th>
+            <th scope="col">Salary</th>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        const ajaxUrl = $('#datatable-employee').data('ajax-url');
+        console.log(ajaxUrl)
+        let dataTable = $('#datatable-employee').DataTable({
+            ajax: {
+                url: ajaxUrl,
+            },
+            processing: true,
+            serverSide: true,
+            searching: true,
+            lengthChange: false,
+            columns: [
+                {data: 'name'},
+                {data: 'position'},
+                {data: 'office'},
+                {data: 'age'},
+                {data: 'salary', render: DataTable.render.number(null, null, 0, '$')},
+            ],
+        });
+        $('#datatable-filters').on('input', function(e) {
+            dataTable.columns(e.target.dataset.columnIndex).search(e.target.value)
+            dataTable.draw();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DatatableController!{% endblock %}
+{% block stylesheets %}
+    <style>
+        #datatable-product_filter {
+            display: none;
+        }
+    </style>
+
+{% endblock %}
+{% block body %}
+    <h1>Datatable Server-side processing</h1>
+    <p>
+        <a href="{{ path('app_datatable_views', {'ressource' : 'employee'}) }}">Liste des employées</a>
+    </p>
+    <div id="datatable-filters" class="grid">
+        <div class="filter-group">
+            <label for="filter-category">Category</label>
+            <input type="text" id="filter-category" name="filter-categoty" data-column-index="0">
+        </div>
+        <div class="filter-group">
+            <label for="filter-name">Name</label>
+            <input type="text" id="filter-name" name="filter-name" data-column-index="1">
+        </div>
+        <div class="filter-group">
+            <label for="filter-price">Price</label>
+            <input type="text" id="filter-price" name="filter-price" data-column-index="2">
+        </div>
+        <div class="filter-group">
+            <label for="filter-quantity">Quantity</label>
+            <input type="text" id="filter-quantity" name="filter-quantity" data-column-index="3">
+        </div>
+    </div>
+    <table id="datatable-product" data-ajax-url="{{ path('app_datatable_ressource', {'ressource' : 'product'}) }}">
+        <caption align="top">Product</caption>
+        <thead>
+        <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        const ajaxUrl = $('#datatable-product').data('ajax-url');
+        let dataTable = $('#datatable-product').DataTable({
+            ajax: {
+                url: ajaxUrl,
+            },
+            processing: true,
+            serverSide: true,
+            searching: true,
+            lengthChange: false,
+            columns: [
+                {data: 'category'},
+                {data: 'name'},
+                {data: 'price'},
+                {data: 'quantity'},
+            ],
+        });
+        $('#datatable-filters').on('input', function (e) {
+            dataTable.columns(e.target.dataset.columnIndex).search(e.target.value)
+            dataTable.draw();
+        });
+    </script>
+{% endblock %}
